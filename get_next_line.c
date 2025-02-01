@@ -6,36 +6,16 @@
 /*   By: sisingja <sisingja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 21:15:27 by sisingja          #+#    #+#             */
-/*   Updated: 2025/01/31 22:02:15 by sisingja         ###   ########.fr       */
+/*   Updated: 2025/02/01 01:31:31 by sisingja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_next_buffer(char **temp)
-{
-	char	*line;
-	char	*ptr;
-
-	ptr = *temp;
-	while (*ptr && *ptr != '\n')
-		++ptr;
-	ptr += (*ptr == '\n');
-	line = ft_substr(*temp, 0, (size_t)(ptr - *temp));
-	if (!line)
-	{
-		free(*temp);
-		return (NULL);
-	}
-	ptr = ft_substr(ptr, 0, ft_strlen(ptr));
-	free(*temp);
-	*temp = ptr;
-	return (line);
-}
-
 static char	*read_file(char *temp, int fd, char *buff)
 {
 	ssize_t	r;
+	char	*new_temp;
 
 	r = 1;
 	while (r && !ft_strchr(temp, '\n'))
@@ -47,46 +27,66 @@ static char	*read_file(char *temp, int fd, char *buff)
 			free(temp);
 			return (NULL);
 		}
-		buff[r] = 0;
-		temp = ft_strjoin(temp, buff);
-		if (!temp)
+		buff[r] = '\0';
+		new_temp = ft_strjoin(temp, buff);
+		if (!new_temp)
 		{
 			free(buff);
 			return (NULL);
 		}
+		temp = new_temp;
 	}
 	free(buff);
 	return (temp);
 }
 
+static char	*get_next_line_buffer(char **temp)
+{
+	char	*line;
+	char	*new_temp;
+	char	*ptr;
+
+	ptr = *temp;
+	while (*ptr && *ptr != '\n')
+		ptr++;
+	ptr += (*ptr == '\n');
+	line = ft_substr(*temp, 0, ptr - *temp);
+	if (!line)
+	{
+		free(*temp);
+		return (NULL);
+	}
+	new_temp = ft_substr(ptr, 0, ft_strlen(ptr));
+	free(*temp);
+	*temp = new_temp;
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*temp[FD_MAX];
-	char		*buff;
+	static char	*temp = NULL;
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!temp[fd])
-		temp[fd] = ft_strdup("");
-	if (!temp[fd])
+	if (!temp)
+		temp = ft_strdup("");
+	if (!temp)
 		return (NULL);
-	buff = malloc(sizeof(*buff) * (BUFFER_SIZE + 1));
-	if (!buff)
+	buffer = malloc(sizeof(*buffer) * (BUFFER_SIZE + 1));
+	if (!buffer)
 	{
-		free(temp[fd]);
+		free(temp);
 		return (NULL);
 	}
-	temp[fd] = read_file(temp[fd], fd, buff);
-	if (!temp[fd])
-		return (NULL);
-	if (!*temp[fd])
-	{#include <stdio.h>
-
-		free(temp[fd]);
-		temp[fd] = NULL;
+	temp = read_file(temp, fd, buffer);
+	if (!temp || !*temp)
+	{
+		free(temp);
+		temp = NULL;
 		return (NULL);
 	}
-	return (ft_next_buffer(&temp[fd]));
+	return (get_next_line_buffer(&temp));
 }
 
 //int	main(int ac, char *av[])
