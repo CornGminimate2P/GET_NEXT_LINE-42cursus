@@ -6,7 +6,7 @@
 /*   By: sisingja <sisingja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 18:39:24 by sisingja          #+#    #+#             */
-/*   Updated: 2025/01/29 21:54:48 by sisingja         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:36:29 by sisingja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*ft_strdup(const char *str)
 	char	*dup;
 	char	*ptr;
 
+	if (!str)
+		return (NULL);
 	dup = malloc (sizeof (*dup) * (ft_strlen(str) + 1));
 	if (!dup)
 		return (NULL);

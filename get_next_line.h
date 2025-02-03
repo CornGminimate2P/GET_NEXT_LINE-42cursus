@@ -6,7 +6,7 @@
 /*   By: sisingja <sisingja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 21:15:30 by sisingja          #+#    #+#             */
-/*   Updated: 2025/02/01 01:30:26 by sisingja         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:16:02 by sisingja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
-# include <fcntl.h>
-# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1

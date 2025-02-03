@@ -6,7 +6,7 @@
 /*   By: sisingja <sisingja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 21:15:27 by sisingja          #+#    #+#             */
-/*   Updated: 2025/02/01 19:51:22 by sisingja         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:40:24 by sisingja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*read_file(char *line, int fd, char *buff)
 	return (line);
 }
 
-static char	*get_next_line_buffer(char **line)
+static char	*line_buffer(char **line)
 {
 	char	*ret_line;
 	char	*new_line;
@@ -86,12 +86,15 @@ char	*get_next_line(int fd)
 		line = NULL;
 		return (NULL);
 	}
-	return (get_next_line_buffer(&line));
+	return (line_buffer(&line));
 }
+
+//#include <stdio.h>
+//#include <fcntl.h>
 
 //int	main(int ac, char *av[])
 //{
-//	int		fd = open(av[1], O_RDONLY);
+//	int		fd = open("text.txt", O_RDONLY);
 //	char	*line;
 
 //	while (1)
